@@ -1,29 +1,36 @@
-# fly.toml file generated for ip-show on 2023-04-12T16:14:40-04:00
+# fly.toml file generated for ip-show on 2023-04-12T16:40:30-04:00
 
 app = "ip-show"
+kill_signal = "SIGINT"
+kill_timeout = 5
+primary_region = "mia"
+
 [build]
   builder = "paketobuildpacks/builder:base"
   buildpacks = ["gcr.io/paketo-buildpacks/go"]
 
-[[services]]
-  internal_port = 8080
-  protocol = "tcp"
+[env]
+  PORT = "8080"
 
+[[services]]
+  protocol = "tcp"
+  internal_port = 8080
+  processes = ["app"]
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
   [services.concurrency]
+    type = "connections"
     hard_limit = 25
     soft_limit = 20
 
-  [[services.ports]]
-    handlers = ["http"]
-    port = "80"
-
-  [[services.ports]]
-    handlers = ["tls", "http"]
-    port = "443"
-
   [[services.tcp_checks]]
-    interval = 10000
-    timeout = 2000
-
-[build.args]
-  BP_KEEP_FILES = "assets/*:resources/*"
+    interval = "10s"
+    timeout = "2s"
+    restart_limit = 0

@@ -23,6 +23,8 @@ func main() {
 	router := httprouter.New()
 	router.GET("/", api.GetIP)
 
+	router.GET("/healthz", "ok")
+
 	// Setup 404 / 405 handlers.
 	router.NotFound = http.HandlerFunc(api.NotFound)
 	router.MethodNotAllowed = http.HandlerFunc(api.MethodNotAllowed)
