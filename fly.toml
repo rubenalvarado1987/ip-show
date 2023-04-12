@@ -11,9 +11,6 @@ processes = []
   builder = "paketobuildpacks/builder:base"
   buildpacks = ["gcr.io/paketo-buildpacks/go"]
 
-[build.args]
-  BP_KEEP_FILES = "assets/*:resources/*"
-
 [env]
   PORT = "8080"
 
@@ -34,3 +31,6 @@ processes = []
   [[services.ports]]
     handlers = ["tls", "http"]
     port = 443
+
+[build.args]
+  BP_KEEP_FILES = "assets/*:resources/*"
