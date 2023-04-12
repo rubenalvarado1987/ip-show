@@ -92,3 +92,4 @@ instantly provision your own copy of the ipify service.
 ## Questions?
 
 Got a question? Please create a Github issue!
+# ip-show
